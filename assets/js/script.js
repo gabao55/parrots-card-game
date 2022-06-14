@@ -55,21 +55,25 @@ function showCard(element) {
     }
 
     if (firstSelected != null && secondSelected != null) {
-        if (firstSelected.getAttribute("src") != secondSelected.getAttribute("src")) {
-            // TODO: Make the code sleep to show the second card
-            hideCards();
-        }
-
-        firstSelected = null;
-        secondSelected = null;
+        setTimeout(hideCards, 1000);
     }
 }
 
+function stop() {
+    return true;
+}
+
 function hideCards() {
-    firstSelected.classList.toggle("display-none");
-    firstSelected.parentNode.querySelector('[data-identifier="back-face"]').classList.toggle("display-none");
-    secondSelected.classList.toggle("display-none");
-    secondSelected.parentNode.querySelector('[data-identifier="back-face"]').classList.toggle("display-none");
+    if (firstSelected.getAttribute("src") != secondSelected.getAttribute("src")) {
+        firstSelected.classList.toggle("display-none");
+        firstSelected.parentNode.querySelector('[data-identifier="back-face"]').classList.toggle("display-none");
+        secondSelected.classList.toggle("display-none");
+        secondSelected.parentNode.querySelector('[data-identifier="back-face"]').classList.toggle("display-none");
+    
+    }
+
+    firstSelected = null;
+    secondSelected = null;
 }
 
 receiveNumberOfCards();
