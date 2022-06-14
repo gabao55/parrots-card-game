@@ -1,14 +1,12 @@
 let numberOfCards;
-let numberOfInsertedCards = 0;
-let cardNode = document.createElement("div.card");
-cardNode.classList.add("card")
-cardNode.innerHTML = '<img src="assets/img/front.png" alt="" />';
+let i;
+let allCards = document.querySelectorAll(".card");
 
 function receiveNumberOfCards() {
-    numberOfCards = Number(prompt("Com quantas cartas quer jogar (de 4 a 14)?"));
+    numberOfCards = Number(prompt("Com quantas cartas quer jogar (de 4 a 14 e par)?"));
     
     if (numberOfCards == 0) {
-        alert("Você deve inserir um número para jogar!");
+        alert("Você deve inserir um número par para jogar!");
         receiveNumberOfCards();
     }
     else if (numberOfCards < 4) {
@@ -26,10 +24,9 @@ function receiveNumberOfCards() {
 }
 
 function startGame() {
-    while (numberOfInsertedCards < numberOfCards) {
-        document.querySelector(".cards").appendChild(cardNode.cloneNode(true));
-        numberOfInsertedCards++;
-        startGame();
+    for (i = 0; i < numberOfCards; i++) {
+        console.log(allCards[i])
+        allCards[i].classList.remove("display-none")
     }
 }
 

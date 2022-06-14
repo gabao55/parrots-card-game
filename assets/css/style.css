@@ -20,6 +20,10 @@ h1 {
     margin: 40px 15px 30px 15px;
 }
 
+.display-none {
+    display: none !important;
+}
+
 .cards {
     width: 80vw;
     display: flex;
