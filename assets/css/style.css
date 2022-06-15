@@ -46,4 +46,15 @@ h1 {
 .card img {
     width: 100px;
     height: 100px;
+    backface-visibility: hidden;
+    transition: all .5s ease-in-out;
+    transform-style: preserve-3d;
 }
+
+/* .rotate-back {
+    transform: rotateY(180deg);
+}
+
+.rotate-front {
+    transform: rotateY(-180deg);
+} */

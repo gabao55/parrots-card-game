@@ -6,6 +6,22 @@ let backImage;
 let firstSelected = null;
 let secondSelected = null;
 let numberOfMoves = 0;
+let allGifs = [
+    "bobrossparrot",
+    "explodyparrot",
+    "fiestaparrot",
+    "metalparrot",
+    "revertitparrot",
+    "tripletsparrot",
+    "unicornparrot"
+]
+let gif;
+let randomGifs = [];
+
+
+function comparer() { 
+	return Math.random() - 0.5; 
+}
 
 function receiveNumberOfCards() {
     numberOfCards = Number(prompt("Com quantas cartas quer jogar (de 4 a 14 e par)?"));
@@ -29,9 +45,23 @@ function receiveNumberOfCards() {
 }
 
 function startGame() {
+    allGifs.sort(comparer);
     for (i = 0; i < numberOfCards; i++) {
         allCards[i].classList.remove("display-none")
+        if (i%2 == 0) {
+            randomGifs.push(allGifs[i/2]);
+            randomGifs.push(allGifs[i/2]);
+        }
     }
+
+    randomGifs.sort(comparer);
+
+    for (i = 0; i < numberOfCards; i++) {
+        gif = `assets/img/${randomGifs[i]}.gif`;
+        allCards[i].querySelector('[data-identifier="front-face"]').setAttribute("src", gif);
+    }
+
+
 }
 
 function showCard(element) {
@@ -39,11 +69,19 @@ function showCard(element) {
     backImage = element.querySelector('[data-identifier="back-face"]');
 
     if (frontImage.classList.contains("display-none") === true) {
-        frontImage.classList.toggle("display-none");
-        backImage.classList.toggle("display-none");
+        // TODO: Implement 3D animation for flipping cards
+        backImage.classList.toggle("rotate-back");
+        setTimeout(function() {backImage.classList.toggle("display-none");}, 500)
+        setTimeout(function() {frontImage.classList.toggle("rotate-front");}, 501)
+        setTimeout(function() {frontImage.classList.toggle("display-none");}, 500)
+        
+        // frontImage.classList.toggle("display-none");
         numberOfMoves++;
     }
     else {
+        backImage.classList.toggle("rotate-back");
+        frontImage.classList.toggle("rotate-front");
+
         return false;
     }
 
@@ -56,6 +94,7 @@ function showCard(element) {
 
     if (firstSelected != null && secondSelected != null) {
         setTimeout(hideCards, 1000);
+        // #TODO: Fix asyncronous bug when user clicks too fast different cards
     }
 }
 
