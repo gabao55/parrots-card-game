@@ -17,6 +17,7 @@ let allGifs = [
 ]
 let gif;
 let randomGifs = [];
+let numberOfCheckedCards = 0;
 
 
 function comparer() { 
@@ -93,13 +94,15 @@ function showCard(element) {
     }
 
     if (firstSelected != null && secondSelected != null) {
-        setTimeout(hideCards, 1000);
+        // setTimeout(hideCards, 1000);
+        hideCards()
         // #TODO: Fix asyncronous bug when user clicks too fast different cards
     }
-}
+    console.log(numberOfCheckedCards)
 
-function stop() {
-    return true;
+    if (numberOfCheckedCards === numberOfCards) {
+        endGame();
+    }
 }
 
 function hideCards() {
@@ -108,11 +111,19 @@ function hideCards() {
         firstSelected.parentNode.querySelector('[data-identifier="back-face"]').classList.toggle("display-none");
         secondSelected.classList.toggle("display-none");
         secondSelected.parentNode.querySelector('[data-identifier="back-face"]').classList.toggle("display-none");
-    
+    }
+    else {
+        firstSelected.classList.add("checked");
+        secondSelected.classList.add("checked");
+        numberOfCheckedCards += 2;
     }
 
     firstSelected = null;
     secondSelected = null;
+}
+
+function endGame() {
+    alert(`Você ganhou em ${numberOfMoves} jogadas!`);
 }
 
 receiveNumberOfCards();
