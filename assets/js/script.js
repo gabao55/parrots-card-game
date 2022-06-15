@@ -5,7 +5,7 @@ let frontImage;
 let backImage;
 let firstSelected = null;
 let secondSelected = null;
-let numberOfMoves = 0;
+let numberOfMoves;
 let allGifs = [
     "bobrossparrot",
     "explodyparrot",
@@ -16,17 +16,36 @@ let allGifs = [
     "unicornparrot"
 ]
 let gif;
-let randomGifs = [];
-let numberOfCheckedCards = 0;
+let randomGifs;
+let numberOfCheckedCards;
+let playAgain;
 
+function startGame() {
+    receiveNumberOfCards();
+    numberOfMoves = 0;
+    numberOfCheckedCards = 0;
+    randomGifs = [];
+    
+    allGifs.sort(comparer);
+    for (i = 0; i < numberOfCards; i++) {
+        allCards[i].classList.remove("display-none");
+        if (i%2 == 0) {
+            randomGifs.push(allGifs[i/2]);
+            randomGifs.push(allGifs[i/2]);
+        }
+    }
 
-function comparer() { 
-	return Math.random() - 0.5; 
+    randomGifs.sort(comparer);
+
+    for (i = 0; i < numberOfCards; i++) {
+        gif = `assets/img/${randomGifs[i]}.gif`;
+        allCards[i].querySelector('[data-identifier="front-face"]').setAttribute("src", gif);
+    }
 }
 
 function receiveNumberOfCards() {
     numberOfCards = Number(prompt("Com quantas cartas quer jogar (de 4 a 14 e par)?"));
-    
+
     if (numberOfCards == 0) {
         alert("Você deve inserir um número par para jogar!");
         receiveNumberOfCards();
@@ -45,44 +64,20 @@ function receiveNumberOfCards() {
     }
 }
 
-function startGame() {
-    allGifs.sort(comparer);
-    for (i = 0; i < numberOfCards; i++) {
-        allCards[i].classList.remove("display-none")
-        if (i%2 == 0) {
-            randomGifs.push(allGifs[i/2]);
-            randomGifs.push(allGifs[i/2]);
-        }
-    }
-
-    randomGifs.sort(comparer);
-
-    for (i = 0; i < numberOfCards; i++) {
-        gif = `assets/img/${randomGifs[i]}.gif`;
-        allCards[i].querySelector('[data-identifier="front-face"]').setAttribute("src", gif);
-    }
-
-
+function comparer() { 
+	return Math.random() - 0.5; 
 }
 
 function showCard(element) {
     frontImage = element.querySelector('[data-identifier="front-face"]');
     backImage = element.querySelector('[data-identifier="back-face"]');
+    if (backImage.style.transform !== "rotateY(-180deg)") {
+        backImage.style.transform = "rotateY(-180deg)";
+        frontImage.style.transform = "rotateY(0deg)";
 
-    if (frontImage.classList.contains("display-none") === true) {
-        // TODO: Implement 3D animation for flipping cards
-        backImage.classList.toggle("rotate-back");
-        setTimeout(function() {backImage.classList.toggle("display-none");}, 500)
-        setTimeout(function() {frontImage.classList.toggle("rotate-front");}, 501)
-        setTimeout(function() {frontImage.classList.toggle("display-none");}, 500)
-        
-        // frontImage.classList.toggle("display-none");
         numberOfMoves++;
     }
     else {
-        backImage.classList.toggle("rotate-back");
-        frontImage.classList.toggle("rotate-front");
-
         return false;
     }
 
@@ -94,23 +89,17 @@ function showCard(element) {
     }
 
     if (firstSelected != null && secondSelected != null) {
-        // setTimeout(hideCards, 1000);
-        hideCards()
+        setTimeout(hideCards, 1000);
         // #TODO: Fix asyncronous bug when user clicks too fast different cards
-    }
-    console.log(numberOfCheckedCards)
-
-    if (numberOfCheckedCards === numberOfCards) {
-        endGame();
     }
 }
 
 function hideCards() {
     if (firstSelected.getAttribute("src") != secondSelected.getAttribute("src")) {
-        firstSelected.classList.toggle("display-none");
-        firstSelected.parentNode.querySelector('[data-identifier="back-face"]').classList.toggle("display-none");
-        secondSelected.classList.toggle("display-none");
-        secondSelected.parentNode.querySelector('[data-identifier="back-face"]').classList.toggle("display-none");
+        firstSelected.parentNode.querySelector('[data-identifier="back-face"]').style.transform = "rotateY(0deg)";
+        firstSelected.parentNode.querySelector('[data-identifier="front-face"]').style.transform = "rotateY(180deg)";
+        backImage.style.transform = "rotateY(0deg)";
+        frontImage.style.transform = "rotateY(180deg)";
     }
     else {
         firstSelected.classList.add("checked");
@@ -120,11 +109,25 @@ function hideCards() {
 
     firstSelected = null;
     secondSelected = null;
+
+    if (numberOfCheckedCards === numberOfCards) {
+        endGame();
+    }
 }
 
 function endGame() {
     alert(`Você ganhou em ${numberOfMoves} jogadas!`);
+    // restartGame();  
 }
 
-receiveNumberOfCards();
+function restartGame() {
+    playAgain = prompt("Você quer jogar novamente?");
+    if (playAgain === "sim") {
+        for (i = 0; i < numberOfCards; i++) {
+            allCards[i].classList.add("display-none");
+        }
+        startGame();
+    }
+}
+
 startGame();
