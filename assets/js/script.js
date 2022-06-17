@@ -28,6 +28,15 @@ let cardTemplate = `
     </div>
 `;
 
+let timer = document.querySelector(".timer");
+let time = 0;
+
+function refreshTime() {
+    timer.innerHTML = time;
+    time++;
+}
+setInterval(refreshTime, 1000);
+
 function startGame() {
     receiveNumberOfCards();
     numberOfMoves = 0;
@@ -123,7 +132,7 @@ function hideCards() {
 }
 
 function endGame() {
-    alert(`Você ganhou em ${numberOfMoves} jogadas!`);
+    alert(`Você ganhou em ${numberOfMoves} jogadas e ${time - 1} segundos!`);
     restartGame();
 }
 
