@@ -29,16 +29,16 @@ let cardTemplate = `
 `;
 
 let timer = document.querySelector(".timer");
-let time = 0;
+let time;
 
 function refreshTime() {
     timer.innerHTML = time;
     time++;
 }
-setInterval(refreshTime, 1000);
 
 function startGame() {
     receiveNumberOfCards();
+    time = 0;
     numberOfMoves = 0;
     numberOfCheckedCards = 0;
     randomGifs = [];
@@ -148,3 +148,4 @@ function restartGame() {
 }
 
 startGame();
+setInterval(refreshTime, 1000);
