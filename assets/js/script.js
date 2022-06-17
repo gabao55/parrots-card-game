@@ -5,6 +5,7 @@ let frontImage;
 let backImage;
 let firstSelected = null;
 let secondSelected = null;
+let isLoading = false;
 let numberOfMoves;
 let allGifs = [
     "bobrossparrot",
@@ -90,7 +91,8 @@ function comparer() {
 function showCard(element) {
     frontImage = element.querySelector('[data-identifier="front-face"]');
     backImage = element.querySelector('[data-identifier="back-face"]');
-    if (backImage.parentNode.style.transform !== "rotateY(-180deg)") {
+    if (backImage.parentNode.style.transform !== "rotateY(-180deg)"
+    && isLoading === false) {
         backImage.parentNode.style.transform = "rotateY(-180deg)";
 
         numberOfMoves++;
@@ -107,15 +109,15 @@ function showCard(element) {
     }
 
     if (firstSelected != null && secondSelected != null) {
+        isLoading = true;
         setTimeout(hideCards, 1000);
-        // #TODO: Fix asyncronous bug when user clicks too fast different cards
     }
 }
 
 function hideCards() {
     if (firstSelected.getAttribute("src") != secondSelected.getAttribute("src")) {
         firstSelected.parentNode.style.transform = "rotateY(0deg)";
-        backImage.parentNode.style.transform = "rotateY(0deg)";
+        secondSelected.parentNode.style.transform = "rotateY(0deg)";
     }
     else {
         firstSelected.classList.add("checked");
@@ -125,6 +127,8 @@ function hideCards() {
 
     firstSelected = null;
     secondSelected = null;
+
+    isLoading = false;
 
     if (numberOfCheckedCards === numberOfCards) {
         endGame();
