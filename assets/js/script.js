@@ -1,6 +1,6 @@
 let numberOfCards;
 let i;
-let allCards = document.querySelectorAll(".card");
+let cardsContainer = document.querySelector(".cards");
 let frontImage;
 let backImage;
 let firstSelected = null;
@@ -19,16 +19,25 @@ let gif;
 let randomGifs;
 let numberOfCheckedCards;
 let playAgain;
+let cardTemplate = `
+    <div class="card" data-identifier="card" onclick="showCard(this);">
+        <img src="assets/img/front.png" 
+        data-identifier="back-face" alt="" />
+        <img src="" 
+        data-identifier="front-face" alt="" class=""/>
+    </div>
+`;
 
 function startGame() {
     receiveNumberOfCards();
     numberOfMoves = 0;
     numberOfCheckedCards = 0;
     randomGifs = [];
+    cardsContainer.innerHTML = '';
     
     allGifs.sort(comparer);
     for (i = 0; i < numberOfCards; i++) {
-        allCards[i].classList.remove("display-none");
+        cardsContainer.innerHTML += cardTemplate;
         if (i%2 == 0) {
             randomGifs.push(allGifs[i/2]);
             randomGifs.push(allGifs[i/2]);
@@ -36,6 +45,7 @@ function startGame() {
     }
 
     randomGifs.sort(comparer);
+    let allCards = document.querySelectorAll(".card");
 
     for (i = 0; i < numberOfCards; i++) {
         gif = `assets/img/${randomGifs[i]}.gif`;
@@ -114,15 +124,12 @@ function hideCards() {
 
 function endGame() {
     alert(`Você ganhou em ${numberOfMoves} jogadas!`);
-    // restartGame();  
+    // restartGame();
 }
 
 function restartGame() {
     playAgain = prompt("Você quer jogar novamente?");
     if (playAgain === "sim") {
-        for (i = 0; i < numberOfCards; i++) {
-            allCards[i].classList.add("display-none");
-        }
         startGame();
     }
 }
