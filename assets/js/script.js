@@ -124,13 +124,17 @@ function hideCards() {
 
 function endGame() {
     alert(`Você ganhou em ${numberOfMoves} jogadas!`);
-    // restartGame();
+    restartGame();
 }
 
 function restartGame() {
     playAgain = prompt("Você quer jogar novamente?");
     if (playAgain === "sim") {
         startGame();
+    }
+    else if (playAgain !== "não") {
+        alert("Por favor, responda sim ou não.");
+        restartGame();
     }
 }
 
