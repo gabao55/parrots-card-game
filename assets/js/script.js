@@ -145,7 +145,10 @@ function restartGame() {
         alert("Por favor, responda sim ou não.");
         restartGame();
     }
+    else {
+        clearInterval(interval);
+    }
 }
 
 startGame();
-setInterval(refreshTime, 1000);
+let interval = setInterval(refreshTime, 1000);
