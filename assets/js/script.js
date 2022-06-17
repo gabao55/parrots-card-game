@@ -71,9 +71,8 @@ function comparer() {
 function showCard(element) {
     frontImage = element.querySelector('[data-identifier="front-face"]');
     backImage = element.querySelector('[data-identifier="back-face"]');
-    if (backImage.style.transform !== "rotateY(-180deg)") {
-        backImage.style.transform = "rotateY(-180deg)";
-        frontImage.style.transform = "rotateY(0deg)";
+    if (backImage.parentNode.style.transform !== "rotateY(-180deg)") {
+        backImage.parentNode.style.transform = "rotateY(-180deg)";
 
         numberOfMoves++;
     }
@@ -96,10 +95,8 @@ function showCard(element) {
 
 function hideCards() {
     if (firstSelected.getAttribute("src") != secondSelected.getAttribute("src")) {
-        firstSelected.parentNode.querySelector('[data-identifier="back-face"]').style.transform = "rotateY(0deg)";
-        firstSelected.parentNode.querySelector('[data-identifier="front-face"]').style.transform = "rotateY(180deg)";
-        backImage.style.transform = "rotateY(0deg)";
-        frontImage.style.transform = "rotateY(180deg)";
+        firstSelected.parentNode.style.transform = "rotateY(0deg)";
+        backImage.parentNode.style.transform = "rotateY(0deg)";
     }
     else {
         firstSelected.classList.add("checked");
