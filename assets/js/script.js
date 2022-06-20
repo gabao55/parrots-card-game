@@ -110,29 +110,34 @@ function showCard(element) {
 
     if (firstSelected != null && secondSelected != null) {
         isLoading = true;
-        setTimeout(hideCards, 1000);
+        if (firstSelected.getAttribute("src") != secondSelected.getAttribute("src")) {
+            setTimeout(hideCards, 1000);
+        }
+        else {
+            firstSelected.classList.add("checked");
+            secondSelected.classList.add("checked");
+            numberOfCheckedCards += 2;
+
+            firstSelected = null;
+            secondSelected = null;
+
+            isLoading = false;
+
+            if (numberOfCheckedCards === numberOfCards) {
+                setTimeout(endGame, 500);
+            }
+        }
     }
 }
 
 function hideCards() {
-    if (firstSelected.getAttribute("src") != secondSelected.getAttribute("src")) {
-        firstSelected.parentNode.style.transform = "rotateY(0deg)";
-        secondSelected.parentNode.style.transform = "rotateY(0deg)";
-    }
-    else {
-        firstSelected.classList.add("checked");
-        secondSelected.classList.add("checked");
-        numberOfCheckedCards += 2;
-    }
+    firstSelected.parentNode.style.transform = "rotateY(0deg)";
+    secondSelected.parentNode.style.transform = "rotateY(0deg)";
 
     firstSelected = null;
     secondSelected = null;
 
     isLoading = false;
-
-    if (numberOfCheckedCards === numberOfCards) {
-        endGame();
-    }
 }
 
 function endGame() {
