@@ -114,8 +114,6 @@ function showCard(element) {
             setTimeout(hideCards, 1000);
         }
         else {
-            firstSelected.classList.add("checked");
-            secondSelected.classList.add("checked");
             numberOfCheckedCards += 2;
 
             firstSelected = null;
